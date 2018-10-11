@@ -1,0 +1,11 @@
+.stock__key {
+    color: #f16051;
+    border-bottom: solid 2px rgba(255,255,255,0.06);
+    padding: 20px 0 20px 0;
+    font-weight: 400;
+  }
+  
+  .stock__value {
+    color: #fff;
+    font-weight: 200;
+  }

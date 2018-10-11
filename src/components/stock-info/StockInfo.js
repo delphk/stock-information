@@ -1,8 +1,10 @@
 import React from "react";
+import "./StockInfo.css";
 
 const StockInfo = props => {
   return (
     <div>
+      <br />
       <p className="stock__key">
         Stock name: <span className="stock__value">{props.name}</span>
       </p>

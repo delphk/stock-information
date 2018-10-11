@@ -3,7 +3,11 @@ async function fetchQuotes(value) {
     process.env.REACT_APP_API_KEY_1
   }`;
   const request = await fetch(URL);
-  const data = await request.json();
+  const response = await request.json();
+  const data = {
+    price: response["Global Quote"]["05. price"],
+    symbol: response["Global Quote"]["01. symbol"]
+  };
   return data;
 }
 

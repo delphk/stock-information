@@ -3,8 +3,9 @@ async function fetchSymbol(stockname) {
     process.env.REACT_APP_API_KEY_2
   }`;
   const request = await fetch(URL);
-  const data = await request.json();
-  return data;
+  const response = await request.json();
+  const searchresults = response["bestMatches"];
+  return searchresults;
 }
 
 export default fetchSymbol;

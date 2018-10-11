@@ -7,7 +7,7 @@ class StockList extends Component {
     return (
       <div>
         <li
-          className="li stock__value"
+          className="stock__value"
           onClick={() => this.props.displayQuote(symbol, name)}
         >
           {name} ({symbol})

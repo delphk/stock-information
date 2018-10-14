@@ -47,25 +47,36 @@ body {
   letter-spacing: 2px;
 }
 
-@media all and (max-width: 992px) {
+@media all and (max-width: 1400px) {
   .main {
     width: 90%;
   }
 }
 
+/* Responsiveness for mobile in portrait mode */
 @media all and (max-width: 575px) {
   .title-container {
-    height: 30vh;
+    height: 25vh;
   }
 
   .form-container {
-    height: 65vh;
-    padding-top: 70px;
-    padding-left: 30px;
+    height: 70vh;
+    padding: 4vh 0 0 4vh;
   }
 
   .main {
     height: 95vh;
+    width: 95%;
+  }
+}
+
+/* Responsiveness for mobile in landscape mode */
+@media all and (max-height: 420px) and (min-width: 577px) {
+  .form-container {
+    padding-top: 3vh;
+    padding-left: 5vh;
+  }
+  .main {
     width: 95%;
   }
 }

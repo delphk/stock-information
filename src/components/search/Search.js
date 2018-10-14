@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import fetchSymbol from "../../data/fetchSymbol";
+import { fetchSymbol } from "../../data/data";
 import "./Search.css";
-import { debounce, throttle } from "throttle-debounce";
+import { debounce } from "throttle-debounce";
 
 class Search extends Component {
   constructor(props) {
@@ -10,10 +10,12 @@ class Search extends Component {
       searchinput: "",
       searchresults: undefined
     };
-    this.getSymbolThrottle = throttle(500, this.getSymbol);
-    this.getSymbolDebounce = debounce(500, this.getSymbol);
+    // Calls function to get symbol after user stops typing to prevent excessive API calls
+    this.getSymbolFasterDebounce = debounce(500, this.getSymbol);
+    this.getSymbolSlowerDebounce = debounce(800, this.getSymbol);
   }
 
+  // Update search value in the state and call function to debounce
   changeInput = e => {
     this.props.resetState();
     const stockname = e.target.value;
@@ -23,13 +25,14 @@ class Search extends Component {
     });
     if (stockname.length === 0) {
       this.setState({ searchresults: undefined });
-    } else if (stockname.length < 4) {
-      this.getSymbolThrottle(stockname);
+    } else if (stockname.length < 3) {
+      this.getSymbolFasterDebounce(stockname);
     } else {
-      this.getSymbolDebounce(stockname);
+      this.getSymbolSlowerDebounce(stockname);
     }
   };
 
+  // Calls function to fetch the stock symbol based on user's input and get search results
   getSymbol = async stockname => {
     try {
       const searchresults = await fetchSymbol(stockname);
@@ -42,9 +45,10 @@ class Search extends Component {
     }
   };
 
-  getQuote = (symbol, name) => {
+  // Resets search results and passes name and symbol of selected stock to displayQuote function
+  getQuote = (symbol, name, currency) => {
     this.setState({ searchresults: undefined });
-    this.props.displayQuote(symbol, name);
+    this.props.displayQuote(symbol, name, currency);
   };
 
   // Resets search input when user clicks on reset button
@@ -58,8 +62,11 @@ class Search extends Component {
 
   render() {
     const { searchresults, searchinput } = this.state;
+    const symbol = "1. symbol";
+    const name = "2. name";
+    const currency = "8. currency";
     return (
-      <div>
+      <React.Fragment>
         <form onSubmit={e => e.preventDefault()}>
           <i className="fa fa-search fa-md" />
 
@@ -93,19 +100,23 @@ class Search extends Component {
                   className="search__result"
                   // trigger getQuote function when user clicks on desired stock
                   onClick={() =>
-                    this.getQuote(results["1. symbol"], results["2. name"])
+                    this.getQuote(
+                      results[symbol],
+                      results[name],
+                      results[currency]
+                    )
                   }
                 >
                   {/* trims long stock names and display the name and symbol of search results */}
-                  {results["2. name"].length < 25
-                    ? `${results["2. name"]}`
-                    : `${results["2. name"].substring(0, 22)}...`}{" "}
-                  ({results["1. symbol"]})
+                  {results[name].length < 25
+                    ? `${results[name]}`
+                    : `${results[name].substring(0, 22)}...`}{" "}
+                  ({results[symbol]})
                 </li>
               ))}
           </div>
         </form>
-      </div>
+      </React.Fragment>
     );
   }
 }

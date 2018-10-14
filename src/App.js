@@ -3,22 +3,25 @@ import "./App.css";
 import Titles from "./components/title/Titles";
 import Search from "./components/search/Search";
 import StockInfo from "./components/stock-info/StockInfo";
-import fetchQuotes from "./data/fetchQuotes";
+import { fetchQuotes } from "./data/data";
 
 class App extends Component {
   state = {
-    symbol: undefined,
-    price: undefined,
-    name: undefined
+    symbol: "",
+    price: "",
+    name: "",
+    currency: ""
   };
 
-  displayQuote = async (value, name) => {
+  // Calls function to fetch price of the stock that was selected by the user
+  displayQuote = async (symbol, name, currency) => {
     try {
-      const data = await fetchQuotes(value);
+      const data = await fetchQuotes(symbol);
       this.setState({
         price: data.price,
         symbol: data.symbol,
-        name: name
+        name: name,
+        currency: currency
       });
       console.log(this.state);
     } catch (error) {
@@ -26,11 +29,13 @@ class App extends Component {
     }
   };
 
+  // Resets state when user enters input in search bar
   resetState = () => {
     this.setState({
-      price: undefined,
-      symbol: undefined,
-      name: undefined
+      price: "",
+      symbol: "",
+      name: "",
+      currency: ""
     });
   };
 
@@ -55,6 +60,7 @@ class App extends Component {
                         symbol={this.state.symbol}
                         name={this.state.name}
                         price={this.state.price}
+                        currency={this.state.currency}
                       />
                     )}
                   </div>

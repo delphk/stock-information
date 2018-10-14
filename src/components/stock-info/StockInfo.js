@@ -12,7 +12,10 @@ const StockInfo = props => {
         Symbol: <span className="stock__value">{props.symbol}</span>
       </p>
       <p className="stock__key">
-        Price: <span className="stock__value">{props.price}</span>
+        Price:{" "}
+        <span className="stock__value">
+          {props.price} {props.currency}
+        </span>
       </p>
     </div>
   );

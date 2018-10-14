@@ -9,3 +9,24 @@
     color: #fff;
     font-weight: 200;
   }
+
+  /* Responsiveness for mobile in portrait mode */
+  @media all and (max-width: 576px) {
+     .stock__key {
+      font-size: 17px;
+      padding: 10px 0;
+      margin-bottom: 0;
+    }
+
+    .stock__value {
+      font-size: 17px;
+    }
+  }
+
+   /* Responsiveness for mobile in landscape mode */
+   @media all and (max-height: 420px) and (min-width: 577px) {
+    .stock__key {
+      padding: 10px 0;
+      margin-bottom: 0;
+      }
+  }

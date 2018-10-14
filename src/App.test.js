@@ -1,7 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { render, fireEvent } from "react-testing-library";
+import { render, fireEvent, waitForElement } from "react-testing-library";
 import App from "./App";
+import { fetchQuotes } from "./data/data";
+
+jest.mock("./data/data");
 
 it("renders without crashing", () => {
   const div = document.createElement("div");
@@ -9,20 +12,13 @@ it("renders without crashing", () => {
   ReactDOM.unmountComponentAtNode(div);
 });
 
-test("should display quotes when user clicks on stock", () => {
-  const props = {
-    // name: undefined,
-    // symbol: undefined,
-    // price: undefined,
-    fetchQuotes: jest.fn()
+test.skip("should display quotes when user clicks on stock", async () => {
+  const mockData = {
+    price: "1000",
+    symbol: "AAPL"
   };
-  const { container, getByText, debug } = render(<App {...props} />);
-  props.fetchQuotes.mockReturnValueOnce({ price: "40", symbol: "AAPL" });
+  const { container, getByText, debug } = render(<App />);
+  fetchQuotes.mockReturnValueOnce(Promise.resolve(mockData));
+  await waitForElement(() => getByText(/name/));
   debug();
-
-  // const taskAction = container.querySelector("li");
-  // const input = container.querySelector("input");
-  // fireEvent.keypress(input)
-  // fireEvent.click(taskAction);
-  // expect(container.querySelectorAll("p")).toHaveLength(3);
 });

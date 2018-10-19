@@ -1,0 +1,38 @@
+body {
+  margin: 0;
+  font-weight: 100;
+}
+#container {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 10px;
+  width: 95%;
+  height: 42vh;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+}
+
+.historical__title {
+  padding: 0;
+  margin-bottom: 20px;
+  font-weight: 700;
+  color: #cacaca;
+  font-family: 'Roboto Slab';
+  text-align:center;
+}
+
+.symbol__info {
+  font-size: 1.5rem;
+}
+
+/* Responsiveness for mobile in portrait mode */
+@media all and (max-width: 575px) {
+  .historical__title {
+    margin-bottom: 15px;
+    font-size: 30px;
+  }
+}

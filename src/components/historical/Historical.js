@@ -10,42 +10,19 @@ import {
 } from "recharts";
 import "./Historical.css";
 import { Link } from "react-router-dom";
-import moment from "moment";
+import { getHistoricalData } from "../../data/data";
 
 class Historical extends Component {
   state = {
     data: []
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     const symbol = this.props.location.state.symbol;
-    const getData = () => {
-      const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${symbol}&apikey=${
-        process.env.REACT_APP_API_KEY_1
-      }`;
-
-      fetch(url)
-        .then(r => r.json())
-        .then(stockData => {
-          stockData = stockData["Time Series (Daily)"];
-          const sortedData = [];
-          for (let date in stockData) {
-            sortedData.push({
-              date: moment(date).format("MMM DD"),
-              "Closing Price": parseFloat(stockData[date]["5. adjusted close"])
-            });
-          }
-          sortedData.reverse();
-          this.setState({
-            data: sortedData
-          });
-        })
-        .catch(e => {
-          console.log(e);
-        });
-    };
-    getData();
+    const data = await getHistoricalData(symbol);
+    this.setState({ data });
   }
+
   render() {
     console.log(this.state.data);
     return (

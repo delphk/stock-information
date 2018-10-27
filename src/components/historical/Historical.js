@@ -18,7 +18,6 @@ class Historical extends Component {
   };
 
   componentDidMount() {
-    this.setState({ currency: this.props.location.state.currency });
     const symbol = this.props.location.state.symbol;
     const getData = () => {
       const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${symbol}&apikey=${
@@ -33,11 +32,7 @@ class Historical extends Component {
           for (let date in stockData) {
             sortedData.push({
               date: moment(date).format("MMM DD"),
-              "Closing Price": parseFloat(stockData[date]["5. adjusted close"]),
-              p: stockData[date]["5. adjusted close"].toLocaleString("us-EN", {
-                style: "currency",
-                currency: "USD"
-              })
+              "Closing Price": parseFloat(stockData[date]["5. adjusted close"])
             });
           }
           sortedData.reverse();
@@ -52,6 +47,7 @@ class Historical extends Component {
     getData();
   }
   render() {
+    console.log(this.state.data);
     return (
       <div id="container">
         <div className="row">
@@ -74,7 +70,7 @@ class Historical extends Component {
               minTickGap={15}
             />
             <YAxis
-              dataKey="p"
+              dataKey="Closing Price"
               domain={["dataMin", "dataMax"]}
               tick={{ stroke: "#cacaca" }}
               width={80}
